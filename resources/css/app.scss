@@ -1,0 +1,13 @@
+/* Main style */
+@tailwind base;
+// @tailwind components;
+@tailwind utilities;
+
+/* Style CSS */
+@import "../../public/assets/css/styles.css";
+
+/* Keenicons */
+@import "../metronic/vendors/keenicons/duotone/style.css";
+@import "../metronic/vendors/keenicons/filled/style.css";
+@import "../metronic/vendors/keenicons/outline/style.css";
+@import "../metronic/vendors/keenicons/solid/style.css";
