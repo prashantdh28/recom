@@ -5,7 +5,7 @@
 html {margin: 0; padding: 0;}
 body {margin: 0; padding: 0; width: 4in; font-family: sans-serif; color-adjust: exact; print-color-adjust: exact; -webkit-print-color-adjust: exact !important;} 
 
-@page {margin: 0; size: 2in 1in}
+@page {margin: 0; size: 4in 1in}
 
 </style>
 <title>Transparency Label</title>
