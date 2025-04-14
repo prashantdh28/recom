@@ -17,7 +17,6 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 			<table style="border-collapse: collapse; width: 100%; position: relative;">
 				<tr>
 					<td style="width: 100%; position: relative;">
-						<span style="font-size: 8px; top:4px; left: 4px; position: absolute; ">{{ $cnt++ }}</span>
 						<table style="width: 100%; border-collapse: collapse;">
 							<tr style="vertical-align: middle;">
 								<td style="width: 50%; padding-left: 5px;">
@@ -39,6 +38,7 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 						<span style="font-size: 14px; line-height: 14px; text-align: center; display: inline-block; margin-top: -10px;">
 							{{ $data['gtin'] }}
 						</span>
+						<span style="font-size: 6px; position: absolute; right: 3px; bottom: 0px">{{ $cnt++ }}</span>
 					</td>
 				</tr>
 			</table>

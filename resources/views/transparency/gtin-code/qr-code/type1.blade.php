@@ -5,7 +5,7 @@
 html {margin: 0; padding: 0;}
 body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print-color-adjust: exact; -webkit-print-color-adjust: exact !important;} 
 
-@page {margin: 0; size: 28.6mm 28.6mm}
+@page {margin: 0; size: 1.125in 1.125in}
 
 </style>
 <title>Transparency Label</title>
@@ -14,7 +14,7 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 @if(isset($htmlData) && !empty($htmlData))
 	<?php $cnt = 1; ?>
     @foreach($htmlData as $key => $data)
-		<table style="width: 108px; height: 108px; border-collapse: collapse; overflow: hidden;">
+		<table style="width: 108px; height: 108px; border-collapse: collapse; overflow: hidden; position: relative;">
 			<tr>
 				<td>
 					<table style="border-collapse: collapse;">
@@ -29,12 +29,13 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 					</table>
 				</td>
 			</tr>
-			<tr style="overflow: hidden;">
+			<tr style="overflow: hidden; position: relative;">
 				<td style="text-align: center; padding: 0;">
 					<div style="margin-top: -15px;">
 						<div style="transform: rotate(-90deg); transform-origin: 120%; font-size: 6px; letter-spacing: 0.75px; line-height: 0; display: inline-block;">{{ $data['gtin'] }}</div>
 						<?=html_entity_decode(file_get_contents('storage/uploads/qr_code/'.$data['job_id'].'/'.$data['qrCodeImage']))?>
 					</div>
+					<span style="font-size:6px; position: absolute; float: right; right: 2%; bottom: 1%">{{ $cnt++ }}</span>
 				</td>
 			</tr>
 		</table>

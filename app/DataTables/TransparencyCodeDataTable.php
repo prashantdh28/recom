@@ -26,7 +26,6 @@ class TransparencyCodeDataTable extends DataTable
             ->status()
             ->action(function($value){
                 $link = route('transparency-code.download', ['id' => $value->id]);
-                return view('transparency.gtin-code.action', compact(['link']));
                 return ($value->status == TransparencyCodeHistoryStatusEnum::getIntegerValue(TransparencyCodeHistoryStatusEnum::SUCCESS)) ? view('transparency.gtin-code.action', compact(['link'])) : '-';
             })
             ->badge('status', function($value){

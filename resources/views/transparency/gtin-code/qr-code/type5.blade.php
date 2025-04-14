@@ -3,9 +3,9 @@
 <style type="text/css">
 
 html {margin: 0; padding: 0;}
-body {margin: 0; padding: 0; width: 4in; font-family: sans-serif; color-adjust: exact; print-color-adjust: exact; -webkit-print-color-adjust: exact !important;} 
+body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print-color-adjust: exact; -webkit-print-color-adjust: exact !important;} 
 
-@page {margin: 0; size: 4in 1in}
+@page {margin: 0; size: 4in 1.54in}
 
 </style>
 <title>Transparency Label</title>
@@ -14,10 +14,11 @@ body {margin: 0; padding: 0; width: 4in; font-family: sans-serif; color-adjust: 
 @if(isset($htmlData) && !empty($htmlData))
 	<?php $cnt = 1; ?>
     @foreach($htmlData as $key => $data)
-		<table style="width: 192; height: 96px; border-collapse: collapse; padding: 0;">
+		<table style="width: 192; height: 96px; border-collapse: collapse; padding: 0; position: relative;">
 			<tr>
-				<td style="width: 20%; height: 65px; height: 72px; padding-left: 15px;">
+				<td style="width: 20%; height: 65px; height: 72px; padding-left: 15px; position: relative;">
 					<img src="{{ asset('assets/media/transparency-logo-black.png') }}" style="width: 50px;" />
+					<span style="font-size:10px; float: left; position: absolute; bottom: 8px; left: 3px;">{{ $cnt++ }}</span>
 				</td>
 				<td style="width: 40%; height: 60px; padding-left: 8px;">
 					<span style=" font-size: 10px; word-break: break-all; line-height: 2px;">Scan with the Transparency App</span>

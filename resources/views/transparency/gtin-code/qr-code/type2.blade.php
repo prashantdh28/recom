@@ -5,7 +5,7 @@
 html {margin: 0; padding: 0;}
 body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print-color-adjust: exact; -webkit-print-color-adjust: exact !important;} 
 
-@page {margin: 0; size: 44.5mm 19mm}
+@page {margin: 0; size: 1.75in 0.75in}
 
 </style>
 <title>Transparency Label</title>
@@ -18,7 +18,6 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 			<tr>
 				<td style="width: 20%; height: 65px; padding: 0; height: 72px; padding-left: 5px;">
 					<img alt="Logo" src="{{ asset('assets/media/transparency-logo-black.png') }}" style="width: 33px;" />
-					{{-- <span style="font-size:12px; float: right;">{{ $cnt++ }}</span> --}}
 				</td>
 				<td style="width: 32%; padding: 0; height: 60px; padding-left: 4px;">
 					<span style=" font-size: 8px; word-break: break-all; line-height: 2px;">Scan with the Transparency App</span>
@@ -27,6 +26,7 @@ body {margin: 0; padding: 0; font-family: sans-serif; color-adjust: exact; print
 					<div style="margin-top: -2px; margin-left: -6px; position: relative;">
 						<?=html_entity_decode(file_get_contents('storage/uploads/qr_code/'.$data['job_id'].'/'.$data['qrCodeImage']))?>
 						<div style="font-size: 6px; letter-spacing: 0.5px; line-height: 6px; display: inline-block; margin-top: -10px; position: absolute; top: 72px; left: 10px;">{{ $data['gtin'] }}</div>
+						<span style="font-size:6px; float: right; position: absolute; right: 3%; bottom: -8%">{{ $cnt++ }}</span>
 					</div>
 				</td>
 			</tr>
