@@ -23,3 +23,6 @@ yarn-error.log
 /.zed
 package-lock.json
 composer.lock
+docker-db.env
+certbot/conf/live/
+nginx/

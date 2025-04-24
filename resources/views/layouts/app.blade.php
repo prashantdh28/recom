@@ -31,7 +31,7 @@
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     {{-- <script type="module" src="https://cdn.datatables.net/2.2.2/js/dataTables.tailwindcss.js"></script> --}}
     @if (request()->routeIs('*.index'))
-        @vite(['resources/js/datatable-tailwind'])
+        @vite(['resources/js/datatable-tailwind.js'])
     @endif
 </head>
 
