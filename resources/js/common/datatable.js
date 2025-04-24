@@ -13,5 +13,11 @@ export const search = (tableId) => {
 export const filterStatus = (tableId) => {
     $('select[name="status"]').change(function() {
         LaravelDataTables[tableId].draw();
+        drawerToggle();
     });
+}
+
+const drawerToggle = () => {
+    const alpineData = Alpine.$data(document.querySelector('[x-data]'));
+    alpineData.toggleDrawer = !alpineData.toggleDrawer;
 }

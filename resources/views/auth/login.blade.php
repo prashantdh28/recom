@@ -1,61 +1,3 @@
-{{-- <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
-<!--
-Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
-Version: v9.1.1
-Author: Keenthemes
-Contact: support@keenthemes.com
-Website: https://www.keenthemes.com
-Support: https://devs.keenthemes.com
-Follow: https://www.twitter.com/keenthemes
-License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
--->
 <!DOCTYPE html>
 <html class="h-full" data-theme="true" data-theme-mode="light" dir="ltr" lang="en">
 
@@ -113,8 +55,8 @@ License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
         }
     </script>
     <!-- End of Theme Mode -->
-    <div class="grid lg:grid-cols-2 grow">
-        <div class="flex justify-center items-center p-8 lg:p-10 order-2 lg:order-1">
+    <div class="grid lg:grid-cols-1 grow">
+        <div class="flex justify-center items-center p-8 lg:p-10 order-2 lg:order-1 page-bg">
             <div class="card max-w-[370px] w-full">
                 <form action="{{ route('login') }}" class="card-body flex flex-col gap-5 p-10" id="sign_in_form" method="post">
                     @csrf
@@ -122,14 +64,14 @@ License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
                         <h3 class="text-lg font-medium text-gray-900 leading-none mb-2.5">
                             Sign in
                         </h3>
-                        <div class="flex items-center justify-center font-medium">
+                        {{-- <div class="flex items-center justify-center font-medium">
                             <span class="text-2sm text-gray-700 me-1.5">
                                 Need an account?
                             </span>
                             <a class="text-2sm link" href="{{ route('register') }}">
                                 Sign up
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                     
                     <div class="flex flex-col gap-1">
@@ -144,10 +86,10 @@ License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
                             <label class="form-label font-normal text-gray-900">
                                 Password
                             </label>
-                            <a class="text-2sm link shrink-0"
+                            {{-- <a class="text-2sm link shrink-0"
                                 href="javascript:void(0)">
                                 Forgot Password?
-                            </a>
+                            </a> --}}
                         </div>
                         <div class="input" data-toggle-password="true">
                             <input class="{{ $errors->get('password') ? 'border-danger' : '' }}" name="password" placeholder="Enter Password" type="password" required autocomplete="false" />
