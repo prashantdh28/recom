@@ -32,10 +32,16 @@ class TransparencyProductFileDataTable extends DataTable
                 return ($value->error_file_name) ? view('transparency.product-file.error-file')
                     ->with('link', Storage::disk('public')->url("transparency/product-files/errors/$value->error_file_name")) : '-';
             })
-            ->filterColumn('account.name', function($query, $keyword) {
-                $query->whereHas('account', function($q) use ($keyword) {
-                    $q->where('name', 'like', "%{$keyword}%");
-                });
+            ->filter(function ($query) {
+                if (request()->has('search') && request('search')) {
+                    $search = request('search');
+                    
+                    $query->where(function($q) use ($search) {
+                        $q->whereHas('account', function($q) use ($search) {
+                              $q->where('name', 'like', "%{$search}%");
+                          });
+                    });
+                }
             });
     }
 
