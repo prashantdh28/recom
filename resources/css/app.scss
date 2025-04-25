@@ -1,13 +1,82 @@
-/* Main style */
-@tailwind base;
-// @tailwind components;
-@tailwind utilities;
-
-/* Style CSS */
-@import "../../public/assets/css/styles.css";
-
-/* Keenicons */
 @import "../metronic/vendors/keenicons/duotone/style.css";
 @import "../metronic/vendors/keenicons/filled/style.css";
 @import "../metronic/vendors/keenicons/outline/style.css";
 @import "../metronic/vendors/keenicons/solid/style.css";
+@import "../../node_modules/datatables.net-dt/css/dataTables.dataTables.css";
+@import "../metronic/css/demos/demo1.css";
+@import "../metronic/css/styles.css";
+
+
+table.dataTable{
+th,
+    td {
+
+        &.dt-type-numeric,
+        &.dt-type-date {
+            text-align: inherit !important;
+        }
+
+        &:hover {
+            outline: none !important;
+        }
+    }
+
+    >thead {
+        >tr {
+            background-color: #f0f0f0;
+
+            th {
+                background-color: inherit;
+
+                &:hover {
+                    outline: none !important;
+                }
+            }
+
+            >th,
+            >td {
+                border: none;
+                padding: 8px 12px;
+
+                @media (min-width: 1536px) {
+                    padding: 12px;
+                }
+
+                &.dtfc-fixed-start,
+                &.dtfc-fixed-end {
+                    @apply bg-inherit;
+                }
+            }
+        }
+    }
+
+    >tbody {
+        >tr {
+            &:nth-child(odd) {
+                background-color: white;
+            }
+
+            &:nth-child(even) {
+                background-color: var(--tw-primary-light);
+            }
+
+            >th,
+            >td {
+                padding: 8px 12px;
+
+                @media (min-width: 1536px) {
+                    padding: 12px;
+                }
+
+                &:hover {
+                    outline: none !important;
+                }
+
+                &.dtfc-fixed-start,
+                &.dtfc-fixed-end {
+                    background-color: inherit;
+                }
+            }
+        }
+    }
+}

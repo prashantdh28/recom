@@ -86,6 +86,6 @@
     <!-- End of Container -->
 @endsection
 
-@section('scripts')
+@push('scripts')
     {!! JsValidator::formRequest('App\Http\Requests\StoreTransparencyProductFileRequest', '#product_file') !!}
-@endsection
+@endpush

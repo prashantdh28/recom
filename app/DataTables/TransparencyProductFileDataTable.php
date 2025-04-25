@@ -31,6 +31,11 @@ class TransparencyProductFileDataTable extends DataTable
             ->action(function($value){
                 return ($value->error_file_name) ? view('transparency.product-file.error-file')
                     ->with('link', Storage::disk('public')->url("transparency/product-files/errors/$value->error_file_name")) : '-';
+            })
+            ->filterColumn('account.name', function($query, $keyword) {
+                $query->whereHas('account', function($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
             });
     }
 
@@ -44,7 +49,7 @@ class TransparencyProductFileDataTable extends DataTable
         $queryBuilderService = new QueryBuilderService($model);
 
         return $queryBuilderService->filter('processing_status')
-                    ->getQuery();
+                        ->getQuery();
     }
 
     /**
@@ -62,7 +67,10 @@ class TransparencyProductFileDataTable extends DataTable
                         }'
                     ])
                     ->parameters([
-                        "dom" => "<'rounded-t-xl border-x border-t overflow-hidden't><'p-4 table-footer border rounded-b-xl'<'flex flex-wrap justify-between gy-3'<'flex items-center justify-center md:justify-start gap-3'il><'flex align-center justify-center md:justify-end'p>>",
+                        "dom" => "<'bg-white lg:rounded-t-lg rounded-b-lg border'<'lg:rounded-t-lg overflow-hidden't><'px-3 py-[10px] border-top table-footer bg-white border-t rounded-b-lg'<'flex flex-wrap justify-between gy-3 my-auto'<'flex items-center justify-center md:justify-start'<'mr-3'i>l><'flex align-center justify-center md:justify-end'p>>>",
+                        'processing' => false,
+                        'scrollY' => '400px',
+                        'scrollX' => true,
                     ]);
     }
 
@@ -72,12 +80,12 @@ class TransparencyProductFileDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('account.name'),
-            Column::make('file_name'),
-            Column::make('processing_status'),
-            Column::make('user.name'),
-            Column::make('created_at'),
-            Column::make('action')
+            Column::make('account.name')->sortable(false),
+            Column::make('file_name')->sortable(false),
+            Column::make('processing_status')->sortable(false),
+            Column::make('user.name')->sortable(false),
+            Column::make('created_at')->sortable(false),
+            Column::make('action')->sortable(false)
         ];
     }
 

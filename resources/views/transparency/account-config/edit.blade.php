@@ -63,6 +63,6 @@
     <!-- End of Container -->
 @endsection
 
-@section('scripts')
+@push('scripts')
 {!! JsValidator::formRequest('App\Http\Requests\UpdateAccountRequest', '#account_config') !!}
-@endsection
+@endpush

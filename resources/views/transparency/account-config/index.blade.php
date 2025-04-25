@@ -29,7 +29,7 @@
                             <x-slot name="filter"></x-slot>
                                 
                         </x-list.header>
-                        <div class="scrollable-x-auto">
+                        <div class="table-responsive">
                             {{ $dataTable->table() }}
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- DRAWER COMPONENT -->
-        <div id="drawer-contact" @click.outside="toggleDrawer = false"
+        {{-- <div id="drawer-contact" @click.outside="toggleDrawer = false"
             class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800"
             :class="toggleDrawer ? 'drawer -translate-x-full': 'translate-x-full'" tabindex="-1" aria-labelledby="drawer-contact-label">
             <h5 id="drawer-label"
@@ -80,6 +80,47 @@
                 <div class="card-footer text-end py-3 fixed right-0 bottom-0 space-x-2">
                     <button class="btn btn-light" type="button" id="advance-filter-reset">Reset</button>
                     <button class="btn btn-primary" type="submit" id="advance-submit" name="submit">Apply</button>
+                </div>
+            </form>
+        </div> --}}
+
+        <div class="drawer drawer-end flex flex-col max-w-[90%] w-[400px]" data-drawer="true" id="filter-sidebar">
+            <form id="filter_form">
+                <div class="flex items-center justify-between p-5 border-b">
+                    <h3 class="text-base font-semibold text-gray-900">
+                        Filter
+                    </h3>
+                    <button class="btn btn-xs btn-icon btn-light" id="close-filter-sidebar" data-drawer-dismiss="true">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-auto">
+                    <div class="grid grid-cols-1 gap-3 p-5 xl:pr-2 scrollable-y">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item filterform border-0">
+                                
+                                <div class="mb-5">
+                                    <label class="form-label">Status</label>
+                                    <select class="select" name="status">
+                                        <option value="">--Select--</option>
+                                        @forelse ($status as $key => $value)
+                                            <option value="{{ $value }}" @selected(request('status') === $key)>{{ $key }}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-4 p-5 border-t">
+                    <button class="btn btn-sm btn-danger" type="button" id="reset-filter-sidebar">Reset</button>
+                    <button class="btn btn-sm btn-primary" type="button" id="flt_submit">Apply</button>
                 </div>
             </form>
         </div>

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { postcss } from 'tailwindcss';
+import tailwindcss from '@tailwindcss/vite';
 import legacy from '@vitejs/plugin-legacy'; // Correct legacy plugin import
 
 export default defineConfig({
@@ -17,6 +17,7 @@ export default defineConfig({
       ],
       refresh: true,
     }),
+    tailwindcss(),
     legacy({
       targets: ['defaults', 'not IE 11'], // Adjust browser targets as needed
       additionalLegacyPolyfills: ['regenerator-runtime/runtime'], // Optional polyfills

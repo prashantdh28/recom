@@ -38,15 +38,15 @@
                 <div class="menu-item here show" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
                     <div class="menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] ps-[10px] pe-[10px] py-[6px]"
                         tabindex="0">
-                        <span class="menu-icon items-start text-gray-500 dark:text-gray-400 w-[20px]">
+                        <span class="menu-icon items-start text-white w-[20px]">
                             <i class="ki-filled ki-element-11 text-lg">
                             </i>
                         </span>
                         <span
-                            class="menu-title text-sm font-medium text-gray-800 menu-item-active:text-primary menu-link-hover:!text-primary">
+                            class="menu-title text-sm font-medium text-white menu-item-active:text-primary menu-link-hover:!text-primary">
                             Transparency Management
                         </span>
-                        <span class="menu-arrow text-gray-400 w-[20px] shrink-0 justify-end ms-1 me-[-10px]">
+                        <span class="menu-arrow text-white w-[20px] shrink-0 justify-end ms-1 me-[-10px]">
                             <i class="ki-filled ki-plus text-2xs menu-item-show:hidden">
                             </i>
                             <i class="ki-filled ki-minus text-2xs hidden menu-item-show:inline-flex">
@@ -60,7 +60,7 @@
                                 href="{{ route('account-config.index') }}" tabindex="0">
                                 <span class="menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 menu-item-active:before:bg-primary menu-item-hover:before:bg-primary">
                                 </span>
-                                <span class="menu-title text-2sm font-normal text-gray-800 menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
+                                <span class="menu-title text-2sm font-normal text-white menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
                                     Account Config
                                 </span>
                             </a>
@@ -70,7 +70,7 @@
                                 href="{{ route('product-file.index') }}" tabindex="0">
                                 <span class="menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 menu-item-active:before:bg-primary menu-item-hover:before:bg-primary">
                                 </span>
-                                <span class="menu-title text-2sm font-normal text-gray-800 menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
+                                <span class="menu-title text-2sm font-normal text-white menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
                                     Uploaded Product File
                                 </span>
                             </a>
@@ -81,7 +81,7 @@
                                 href="{{ route('product-list.index') }}" tabindex="0">
                                 <span class="menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 menu-item-active:before:bg-primary menu-item-hover:before:bg-primary">
                                 </span>
-                                <span class="menu-title text-2sm font-normal text-gray-800 menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
+                                <span class="menu-title text-2sm font-normal text-white menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
                                     Product List
                                 </span>
                             </a>
@@ -92,7 +92,7 @@
                                 href="{{ route('transparency-code.index') }}" tabindex="0">
                                 <span class="menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 menu-item-active:before:bg-primary menu-item-hover:before:bg-primary">
                                 </span>
-                                <span class="menu-title text-2sm font-normal text-gray-800 menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
+                                <span class="menu-title text-2sm font-normal text-white menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
                                     GTIN Code History
                                 </span>
                             </a>

@@ -62,9 +62,12 @@ class ProductListDataTable extends DataTable
                         }'
                     ])
                     ->parameters([
-                        "dom" => "<'rounded-t-xl border-x border-t overflow-hidden't><'p-4 table-footer border rounded-b-xl'<'flex flex-wrap justify-between gy-3'<'flex items-center justify-center md:justify-start gap-3'il><'flex align-center justify-center md:justify-end'p>>",
+                        "dom" => "<'bg-white lg:rounded-t-lg rounded-b-lg border'<'lg:rounded-t-lg overflow-hidden't><'px-3 py-[10px] border-top table-footer bg-white border-t rounded-b-lg'<'flex flex-wrap justify-between gy-3 my-auto'<'flex items-center justify-center md:justify-start'<'mr-3'i>l><'flex align-center justify-center md:justify-end'p>>>",
+                        'processing' => false,
+                        'scrollY' => '400px',
+                        'scrollX' => true,
                     ])
-                    ->orderBy(5);
+                    ->orderBy(6);
     }
 
     /**
@@ -73,14 +76,14 @@ class ProductListDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('brand'),
-            Column::make('product_name'),
-            Column::make('gtin'),
-            Column::make('sku'),
-            Column::make('asin'),
-            Column::make('product_status'),
-            Column::make('created_at'),
-            Column::make('action')
+            Column::make('brand')->sortable(false),
+            Column::make('product_name')->sortable(false),
+            Column::make('gtin')->sortable(false),
+            Column::make('sku')->sortable(false),
+            Column::make('asin')->sortable(false),
+            Column::make('product_status')->sortable(false),
+            Column::make('created_at')->sortable(false),
+            Column::make('action')->sortable(false)
         ];
     }
 
