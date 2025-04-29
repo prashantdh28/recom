@@ -26,3 +26,5 @@ composer.lock
 docker-db.env
 certbot/conf/live/
 nginx/
+/mysql-backups/
+

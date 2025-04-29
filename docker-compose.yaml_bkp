@@ -35,10 +35,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./:/var/www/html
+      - ./:/var/www/html/ 
       - ./certbot/webroot:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
-      - public-build:/var/www/html/public/build
+      - public-build:/var/www/html/public/build 
     ports:
       - "80:80"
       - "443:443"
@@ -46,7 +46,6 @@ services:
       - recom-app
     networks:
       - recom-network
-
   certbot:
     image: certbot/certbot
     container_name: recom-certbot
@@ -64,30 +63,6 @@ services:
     networks:
       - recom-network
 
-  recom-mysql-backup:
-    image: mysql:8.0
-    container_name: recom-mysql-backup
-    restart: unless-stopped
-    env_file:
-      - docker-db.env
-    volumes:
-      - ./mysql-backups:/mysql-backups
-    entrypoint: >
-      /bin/sh -c '
-        mkdir -p /mysql-backups;
-        echo "Waiting for MySQL to be ready...";
-        until mysqladmin ping -h recom-db -u root -p$$MYSQL_ROOT_PASSWORD --silent; do
-          sleep 5;
-        done;
-        while true; do
-          echo "Taking backup at $(date)";
-          mysqldump -h recom-db -u root -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE | gzip > /mysql-backups/recom-db-$(date +%F-%H-%M-%S).sql.gz;
-          find /mysql-backups -type f -mtime +7 -name "*.sql.gz" -delete;
-          sleep 86400;
-        done'
-    networks:
-      - recom-network
-
 volumes:
   recom_db_data:
   public-build:
@@ -95,3 +70,4 @@ volumes:
 networks:
   recom-network:
     driver: bridge
+
