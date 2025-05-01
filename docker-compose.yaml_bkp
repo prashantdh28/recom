@@ -26,7 +26,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
       - app-network
 
@@ -65,9 +65,37 @@ services:
     networks:
       - app-network
 
+  mysql-backup:
+    image: mysql:8.0
+    container_name: laravel-mysql-backup
+    restart: unless-stopped
+    volumes:
+      - ./mysql-backups:/mysql-backups
+    environment:
+      MYSQL_ROOT_PASSWORD: root@123
+      MYSQL_DATABASE: recom_db
+    entrypoint: >
+      /bin/sh -c '
+        mkdir -p /mysql-backups;
+        echo "Waiting for MySQL to be ready...";
+        until mysqladmin ping -h laravel-db -u root -p$$MYSQL_ROOT_PASSWORD --silent; do
+          sleep 5;
+        done;
+        while true; do
+          echo "Taking backup at $(date)";
+          mysqldump -h laravel-db -u root -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE | gzip > /mysql-backups/recom-db-$(date +%F-%H-%M-%S).sql.gz;
+          find /mysql-backups -type f -mtime +7 -name "*.sql.gz" -delete;
+          sleep 86400;
+        done'
+    depends_on:
+      - db
+    networks:
+      - app-network
+
 volumes:
-  db_data:
+  db-data:
   public-build:
+  mysql-backups:
 
 networks:
   app-network:
