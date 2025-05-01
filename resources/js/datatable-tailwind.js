@@ -1,7 +1,7 @@
 /*! DataTables Tailwind CSS integration */
 
 import $ from 'jquery';  // Import jQuery directly
-import 'datatables.net';  // Import DataTables directly
+// import 'datatables.net';  // Import DataTables directly
 
 'use strict';
 var DataTable = $.fn.dataTable;
@@ -89,4 +89,3 @@ DataTable.ext.renderer.layout.tailwindcss = function (settings, container, items
 };
 
 export default DataTable;
-

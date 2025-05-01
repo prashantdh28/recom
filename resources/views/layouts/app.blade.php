@@ -28,6 +28,7 @@
     <link href="{{ asset('assets/media/recom_48*48.ico') }}" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.js" ></script> --}}
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     {{-- <script type="module" src="https://cdn.datatables.net/2.2.2/js/dataTables.tailwindcss.js"></script> --}}
     @if (request()->routeIs('*.index'))
@@ -57,6 +58,7 @@
             document.documentElement.classList.add(themeMode);
         }
     </script>
+    <script type="module" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
     <!-- End of Theme Mode -->
     <!-- Page -->
     <!-- Main -->
@@ -122,7 +124,7 @@
                                     </div>
                                     
                                     <div class="flex flex-col">
-                                        <div class="menu-item mb-0.5">
+                                        {{-- <div class="menu-item mb-0.5">
                                             <div class="menu-link">
                                                 <span class="menu-icon">
                                                     <i class="ki-filled ki-moon">
@@ -137,11 +139,11 @@
                                                     </input>
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="menu-item px-4 py-1.5">
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
-                                                <a class="btn btn-sm btn-light justify-center"
+                                                <a class="btn btn-sm btn-light justify-center w-full"
                                                     href="{{ route('logout') }}"
                                                     onclick="event.preventDefault();this.closest('form').submit();"
                                                 >
@@ -161,7 +163,7 @@
             </header>
             <!-- End of Header -->
             <!-- Content -->
-            <main class="grow content pt-5" id="content" role="content">
+            <main class="grow content pt-2" id="content" role="content">
                 @yield('content')
             </main>
             <!-- End of Content -->

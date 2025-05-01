@@ -8,7 +8,7 @@
 
 @section('content')
     <!-- Container -->
-    <div class="container-fixed" x-data="{toggleDrawer: false}">
+    <div class="container-fixed">
         <div class="grid gap-5 lg:gap-7.5">
             <div class="card card-grid min-w-full">
                 <div class="card-body">
@@ -29,7 +29,7 @@
                             <x-slot name="filter"></x-slot>
                                 
                         </x-list.header>
-                        <div class="scrollable-x-auto">
+                        <div class="table-responsive">
                             {{ $dataTable->table() }}
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- DRAWER COMPONENT -->
-        <div id="drawer-contact" @click.outside="toggleDrawer = false"
+        {{-- <div id="drawer-contact" @click.outside="toggleDrawer = false"
             class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800"
             :class="toggleDrawer ? 'drawer -translate-x-full': 'translate-x-full'" tabindex="-1" aria-labelledby="drawer-contact-label">
             <h5 id="drawer-label"
@@ -82,47 +82,33 @@
                     <button class="btn btn-primary" type="submit" id="advance-submit" name="submit">Apply</button>
                 </div>
             </form>
-        </div>
-        <!-- END DRAWER COMPONENT -->
-    </div>
+        </div> --}}
 
-
-
-    <div class="drawer drawer-end flex flex-col top-0 h-full hidden" data-drawer="true" id="drawer_2_2">
-        <div class="card rounded-0">
-            <form name='advance_filter_form' id='advance-filter' onsubmit='return false' method="POST">
-                @csrf
-                <div class="card-header pe-5">
-                    <div class="card-title">
-                        <div class="d-flex justify-content-center flex-column me-3">
-                            <div class="fs-4 fw-bolder text-gray-900 me-1 lh-1">Filter</div>
-                        </div>
-                    </div>
-                    <div class="card-toolbar">
-                        <div class="btn btn-sm btn-icon btn-active-light-primary close_drawer">
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none">
-                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                        transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                        transform="rotate(45 7.41422 6)" fill="black"></rect>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="card-body p-0">
+        <div class="drawer drawer-end flex flex-col max-w-[90%] w-[400px]" data-drawer="true" id="filter-sidebar">
+            <div class="flex items-center justify-between p-5 border-b">
+                <h3 class="text-base font-semibold text-gray-900">
+                    Filter
+                </h3>
+                <button class="btn btn-xs btn-icon btn-light" data-drawer-dismiss="true">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-auto">
+                <form id="filter_form" onsubmit="return false">
+                    <div class="grid grid-cols-1 gap-3 p-5 xl:pr-2 scrollable-y">
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item filterform border-0">
-
+                                
                                 <div class="mb-5">
                                     <label class="form-label">Status</label>
                                     <select class="select" name="status">
                                         <option value="">--Select--</option>
                                         @forelse ($status as $key => $value)
-                                            <option value="{{ $value }}">{{ $key }}</option>
+                                            <option value="{{ $value }}" @selected(request('status') === $key)>{{ $key }}</option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -131,13 +117,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer text-end py-3">
-                    <button class="btn btn-light" type="button" id="advance-filter-reset">Reset</button>
-                    <button class="btn btn-primary" type="submit" id="advance-submit" name="submit">Apply</button>
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="flex justify-end gap-4 p-5 border-t">
+                <button class="btn btn-sm btn-danger" type="button" id="reset-filter-sidebar">Reset</button>
+                <button class="btn btn-sm btn-primary" type="button" id="flt_submit">Apply</button>
+            </div>
         </div>
+        <!-- END DRAWER COMPONENT -->
     </div>
     <!-- End of Container -->
 
