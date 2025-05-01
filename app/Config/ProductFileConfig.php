@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Config;
+
+class ProductFileConfig extends BaseConfig
+{
+    /** Child Title is the next Title of Parent Title in Breadcrumbs */
+    private static array $childTitle;
+
+    /** Set & Get the Child Title */
+    private static function getChildTitle(): array
+    {
+        if (!isset(self::$childTitle)) {
+            self::$childTitle = ['name' => 'Product File', 'url' => route('product-file.index')];
+        }
+        return self::$childTitle;
+    }
+
+    /** 
+     * Generate Breadcrumbs for particular page 
+     * @param string $type
+    */
+    public static function generateBreadcrumbs(string $type = 'list') : array
+    {
+        return [
+                self::$parentTitle,
+                self::getChildTitle(),
+                ($type == 'create') ? self::getCreateBreadCrumbs() : ($type == 'edit' ? self::getEditBreadCrumbs() : self::getListBreadCrumbs())
+            ];
+    }
+}
