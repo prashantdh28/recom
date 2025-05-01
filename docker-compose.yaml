@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   recom-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app:latest
     container_name: recom-app
     restart: unless-stopped
     env_file:
