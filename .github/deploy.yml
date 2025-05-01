@@ -1,0 +1,52 @@
+name: Docker Build, Push & Deploy to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-push-deploy:
+    name: Build, Push to ECR & Deploy to EC2
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+      ECR_URI: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build & Push Docker Image to ECR
+        run: |
+          docker build -t $ECR_URI:latest .
+          docker push $ECR_URI:latest
+
+      - name: SSH and Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            echo "🔐 Logging into ECR on EC2"
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 241533115769.dkr.ecr.us-east-1.amazonaws.com
+
+            echo "📂 Navigating to project directory"
+            cd /home/ubuntu/prashant/recom || { echo '❌ Directory not found'; exit 1; }
+
+            echo "🔄 Restarting containers"
+            docker compose up -d --build
+
+            echo "✅ Deployment successful"
