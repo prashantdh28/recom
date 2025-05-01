@@ -1,0 +1,1 @@
+export const tableId = "transparencycode-table";

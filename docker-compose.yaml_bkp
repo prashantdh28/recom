@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  recom-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recom-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - recom-db
+    volumes:
+      - public-build:/var/www/html/public/build
+    networks:
+      - recom-network
+
+  recom-db:
+    image: mysql:8.0
+    container_name: recom-db
+    restart: unless-stopped
+    env_file:
+      - docker-db.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - recom_db_data:/var/lib/mysql
+    networks:
+      - recom-network
+
+  recom-nginx:
+    image: nginx:latest
+    container_name: recom-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www/html/ 
+      - ./certbot/webroot:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - public-build:/var/www/html/public/build 
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - recom-app
+    networks:
+      - recom-network
+  certbot:
+    image: certbot/certbot
+    container_name: recom-certbot
+    volumes:
+      - ./certbot/webroot:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: >
+      /bin/sh -c 'trap exit TERM;
+      while :; do
+        sleep 12h & wait $${!};
+        certbot renew --webroot -w /var/www/certbot &&
+        nginx_container_id=$$(docker ps -qf "name=recom-nginx") &&
+        [ -n "$$nginx_container_id" ] && docker exec $$nginx_container_id nginx -s reload;
+      done'
+    networks:
+      - recom-network
+
+volumes:
+  recom_db_data:
+  public-build:
+
+networks:
+  recom-network:
+    driver: bridge
+
