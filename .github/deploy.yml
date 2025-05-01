@@ -1,5 +1,4 @@
 name: Docker Build, Push & Deploy to EC2
-
 on:
   push:
     branches:
