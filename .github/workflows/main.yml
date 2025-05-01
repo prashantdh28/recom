@@ -44,7 +44,7 @@ jobs:
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 241533115769.dkr.ecr.us-east-1.amazonaws.com
 
             echo "📂 Navigating to project directory"
-            cd /home/ubuntu/prashant/recom || { echo '❌ Directory not found'; exit 1; }
+            cd /home/ubuntu/prashant/transparency-labels || { echo '❌ Directory not found'; exit 1; }
 
             echo "🔄 Restarting containers"
             docker compose up -d --build
