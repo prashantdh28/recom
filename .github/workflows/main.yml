@@ -34,7 +34,7 @@ jobs:
       # Step 4: Build and Push Docker Image to ECR
       - name: Build & Push Docker Image to ECR
         run: |
-          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)  # Get a unique image tag using commit SHA
           docker build -t $ECR_URI:$IMAGE_TAG -t $ECR_URI:latest .
           docker push $ECR_URI:$IMAGE_TAG
           docker push $ECR_URI:latest
@@ -46,20 +46,16 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --comment "GitHub Actions deployment" \
-            --parameters commands='
-              echo "Logging into ECR"
-              aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_URI }}
-
-              echo "Navigating to project directory"
-              cd /home/ubuntu/prashant/transparency-labels
-
-              echo "Pulling latest image"
-              docker compose pull
-
-              echo "Starting containers"
-              docker compose up -d
-
-              echo "Deployment complete"
-            ' \
+            --parameters 'commands=[
+              "echo Logging into ECR",
+              "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_URI }}",
+              "echo Navigating to project directory",
+              "cd /home/ubuntu/prashant/transparency-labels",
+              "echo Pulling latest image",
+              "docker compose pull",
+              "echo Starting containers",
+              "docker compose up -d",
+              "echo Deployment complete"
+            ]' \
             --region ${{ env.AWS_REGION }} \
             --output text
