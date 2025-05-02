@@ -15,9 +15,11 @@ jobs:
       ECR_URI: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Configure AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -25,14 +27,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      # Step 3: Login to Amazon ECR
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
 
+      # Step 4: Build and Push Docker Image to ECR
       - name: Build & Push Docker Image to ECR
         run: |
-          docker build -t $ECR_URI:latest .
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)  # Get a unique image tag using commit SHA
+          docker build -t $ECR_URI:$IMAGE_TAG -t $ECR_URI:latest .
+          docker push $ECR_URI:$IMAGE_TAG
           docker push $ECR_URI:latest
 
+      # Step 5: SSH and Deploy to EC2
       - name: SSH and Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -46,7 +53,10 @@ jobs:
             echo "📂 Navigating to project directory"
             cd /home/ubuntu/prashant/transparency-labels || { echo '❌ Directory not found'; exit 1; }
 
-            echo "🔄 Restarting containers"
-            docker compose up -d --build
+            echo "⬇️ Pulling latest image from ECR"
+            docker compose pull  # Pull the latest image from ECR
+
+            echo "🚀 Starting containers"
+            docker compose up -d  # Start containers without rebuilding
 
             echo "✅ Deployment successful"
