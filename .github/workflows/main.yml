@@ -5,10 +5,6 @@ on:
     branches:
       - master
 
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_URI: ${{ secrets.ECR_REPOSITORY }}
-
 jobs:
   build-push-deploy:
     name: Build, Push to ECR & Deploy via SSM
@@ -25,7 +21,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       # Step 3: Login to Amazon ECR
       - name: Login to Amazon ECR
@@ -34,10 +30,10 @@ jobs:
       # Step 4: Build and Push Docker Image to ECR
       - name: Build & Push Docker Image to ECR
         run: |
-          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)  # Get a unique image tag using commit SHA
-          docker build -t $ECR_URI:$IMAGE_TAG -t $ECR_URI:latest .
-          docker push $ECR_URI:$IMAGE_TAG
-          docker push $ECR_URI:latest
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG -t ${{ secrets.ECR_REPOSITORY }}:latest .
+          docker push ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
 
       # Step 5: Deploy via AWS SSM
       - name: Deploy using AWS SSM
@@ -48,14 +44,14 @@ jobs:
             --comment "GitHub Actions deployment" \
             --parameters commands='[
               "echo Logging into ECR",
-              "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_URI }}",
+              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
               "echo Navigating to project directory",
-              "cd /home/ubuntu/prashant/transparency-labels",
+              "cd ${{ secrets.PROJECT_DIR_PATH }}",
               "echo Pulling latest image",
               "docker compose pull",
               "echo Starting containers",
               "docker compose up -d",
               "echo Deployment complete"
             ]' \
-            --region ${{ env.AWS_REGION }} \
+            --region ${{ secrets.AWS_REGION }} \
             --output text
