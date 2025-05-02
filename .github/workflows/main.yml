@@ -46,7 +46,7 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --comment "GitHub Actions deployment" \
-            --parameters 'commands=[
+            --parameters commands='[
               "echo Logging into ECR",
               "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_URI }}",
               "echo Navigating to project directory",
