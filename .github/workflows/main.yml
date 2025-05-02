@@ -10,10 +10,6 @@ jobs:
     name: Build, Push to ECR & Deploy to EC2
     runs-on: ubuntu-latest
 
-    env:
-      AWS_REGION: us-east-1
-      ECR_URI: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app
-
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
@@ -47,16 +43,16 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            echo "🔐 Logging into ECR on EC2"
+            echo "Logging into ECR on EC2"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 241533115769.dkr.ecr.us-east-1.amazonaws.com
 
-            echo "📂 Navigating to project directory"
-            cd /home/ubuntu/prashant/transparency-labels || { echo '❌ Directory not found'; exit 1; }
+            echo "Navigating to project directory"
+            cd /home/ubuntu/prashant/transparency-labels 
 
-            echo "⬇️ Pulling latest image from ECR"
+            echo "Pulling latest image from ECR"
             docker compose pull  # Pull the latest image from ECR
 
-            echo "🚀 Starting containers"
+            echo "Starting containers"
             docker compose up -d  # Start containers without rebuilding
 
-            echo "✅ Deployment successful"
+            echo "Deployment successful"
