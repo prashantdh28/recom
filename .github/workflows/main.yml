@@ -1,0 +1,58 @@
+name: Docker Build, Push & Deploy to EC2 via SSM
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build-push-deploy:
+    name: Build, Push to ECR & Deploy via SSM
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Step 3: Login to Amazon ECR
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # Step 4: Build and Push Docker Image to ECR
+      - name: Build & Push Docker Image to ECR
+        run: |
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG -t ${{ secrets.ECR_REPOSITORY }}:latest .
+          docker push ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+
+      # Step 5: Deploy via AWS SSM
+      - name: Deploy using AWS SSM
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --comment "GitHub Actions deployment" \
+            --parameters commands='[
+              "echo Pulling latest code from Git",
+              "cd ${{ secrets.PROJECT_DIR_PATH }}",
+              "git pull origin development",
+              "echo Logging into ECR",
+              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
+              "echo Pulling latest image",
+              "docker compose pull",
+              "echo Starting containers",
+              "docker compose up -d",
+              "echo Deployment complete"
+            ]' \
+            --region ${{ secrets.AWS_REGION }} \
+            --output text
