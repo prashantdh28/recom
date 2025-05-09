@@ -27,6 +27,15 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
 
+      # Step 4: Build and Push Docker Image to ECR
+      - name: Build & Push Docker Image to ECR
+        run: |
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG -t ${{ secrets.ECR_REPOSITORY }}:latest .
+          docker push ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+
       # Step 5: Deploy via AWS SSM
       - name: Deploy using AWS SSM
         run: |
@@ -34,17 +43,25 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --comment "GitHub Actions deployment" \
-            --parameters 'commands=[
-              "echo Pulling latest code from Git",
+            --parameters commands='[
+              "echo Switching to project directory",
               "cd ${{ secrets.PROJECT_DIR_PATH }}",
-              "git pull origin master",
+
               "echo Logging into ECR",
-              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} > /tmp/ecr_pw",
-              "cat /tmp/ecr_pw | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
-              "echo Pulling latest image",
+              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
+
+              "echo Stopping and removing old containers",
+              "docker compose down",
+
+              "echo Removing old image (if any)",
+              "docker image rm ${{ secrets.ECR_REPOSITORY }}:latest || true",
+
+              "echo Pulling latest image from ECR",
               "docker compose pull",
-              "echo Starting containers",
+
+              "echo Starting updated containers",
               "docker compose up -d",
+
               "echo Deployment complete"
             ]' \
             --region ${{ secrets.AWS_REGION }} \
