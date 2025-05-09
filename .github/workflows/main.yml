@@ -26,7 +26,7 @@ jobs:
       # Step 3: Login to Amazon ECR
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-        
+
       # Step 5: Deploy via AWS SSM
       - name: Deploy using AWS SSM
         run: |
@@ -34,12 +34,13 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --comment "GitHub Actions deployment" \
-            --parameters commands='[
+            --parameters 'commands=[
               "echo Pulling latest code from Git",
               "cd ${{ secrets.PROJECT_DIR_PATH }}",
               "git pull origin master",
               "echo Logging into ECR",
-              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
+              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} > /tmp/ecr_pw",
+              "cat /tmp/ecr_pw | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}",
               "echo Pulling latest image",
               "docker compose pull",
               "echo Starting containers",
