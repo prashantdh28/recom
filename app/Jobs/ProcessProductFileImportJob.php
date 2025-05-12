@@ -29,6 +29,8 @@ class ProcessProductFileImportJob implements ShouldQueue
      */
     public function handle(ProductFileService $productFileService): void
     {
+        Log::info("Check that queue work command is running or not?");
+        return;
         try {
             $productFileService = new ProductFileService();
             $getFile = $productFileService->getFile();
