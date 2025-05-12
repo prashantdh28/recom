@@ -1,10 +1,6 @@
-version: '3.8'
-
 services:
   recom-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app:latest
     container_name: recom-app
     restart: unless-stopped
     env_file:
@@ -88,6 +84,24 @@ services:
     networks:
       - recom-network
 
+  recom-scheduler:
+    image: 241533115769.dkr.ecr.us-east-1.amazonaws.com/recom-app:latest
+    container_name: recom-scheduler
+    restart: unless-stopped
+    depends_on:
+      - recom-db
+    env_file:
+      - .env
+    entrypoint: >
+      /bin/sh -c '
+        echo "Starting Laravel Scheduler...";
+        while [ true ]; do
+          php artisan schedule:run >> /dev/null 2>&1
+          sleep 60
+        done'
+    networks:
+      - recom-network
+
 volumes:
   recom_db_data:
   public-build:
@@ -95,3 +109,4 @@ volumes:
 networks:
   recom-network:
     driver: bridge
+

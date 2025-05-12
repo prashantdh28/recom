@@ -14,8 +14,6 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    procps \
-    supervisor \
     gnupg2 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql bcmath gd zip \
@@ -64,12 +62,9 @@ RUN chmod -R 777 storage bootstrap/cache && \
 RUN chown -R www-data:www-data public/build && \
     chmod -R 755 public/build
 
-# Copy Supervisor config
-COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Expose PHP-FPM
 EXPOSE 9000
 
 # Run PHP-FPM
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["php-fpm"]
 
