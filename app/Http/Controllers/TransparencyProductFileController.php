@@ -40,6 +40,8 @@ class TransparencyProductFileController extends Controller
      */
     public function store(StoreTransparencyProductFileRequest $request)
     {
+        dispatch(new ProcessProductFileImportJob());
+        return redirect()->route("product-file.index")->with('success', 'Product File Uploaded Successfully');
         try {
             $file = $request->file('file_name');
             $fileName = $file->getClientOriginalName();
