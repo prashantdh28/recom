@@ -96,7 +96,7 @@ services:
       /bin/sh -c '
         echo "Starting Laravel Scheduler...";
         while [ true ]; do
-          php artisan schedule:run >> /dev/null 2>&1
+          php artisan schedule:run >> /var/log/scheduler.log 2>&1
           sleep 60
         done'
     networks:
